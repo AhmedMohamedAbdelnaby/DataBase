@@ -1,0 +1,9 @@
+/*User Database rule*/
+select
+    rol.name
+from sys.database_principals mem
+inner join sys.database_role_members drm
+on drm.member_principal_id = mem.principal_id
+inner join sys.database_principals rol
+on drm.role_principal_id = rol.principal_id
+where mem.principal_id = user_id();
