@@ -1,0 +1,10 @@
+1.	back up file  Table1
+2.	Save result of below SQL as DBFile to get duplicated removed rows
+
+Select * from Table1 a 
+where rrn(a) < (select max(rrn(a)) from Table1 b where a.ID = b.ID )
+
+3.	apply below SQL to remove duplication 
+
+DELETE from Table1 a 
+where rrn(a) < (select max(rrn(a)) from Table1 b where a.id = b.id)
