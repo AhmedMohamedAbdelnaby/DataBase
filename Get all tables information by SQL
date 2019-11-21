@@ -1,0 +1,19 @@
+
+-- Existing tables
+
+select * from QSYS2/SYSTABLES where table_schema = '${library}'
+
+
+-- Existing indexes
+ select INDEX_NAME,SYSTEM_INDEX_NAME,COLUMN_NAME,SYSTEM_COLUMN_NAME from qsys2/SYSKEYS
+        where
+          index_name in (SELECT INDEX_NAME FROM qsys2/sysindexes 
+                         where SYSTEM_INDEX_SCHEMA = '$library' and system_table_name = '$tableSystemName' )
+
+--Advised indexes
+select * from qsys2/SYSIXADV where
+        TABLE_SCHEMA = '${library}' and
+        SYSTEM_TABLE_NAME like '${tableSystemName}%'
+        and TIMES_ADVISED > 1
+        and index_type = 'RADIX'
+        order by TIMES_ADVISED desc, MTI_CREATED desc
